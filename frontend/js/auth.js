@@ -1,45 +1,25 @@
-//LOGIN LOGIC 
-
-// frontend/js/auth.js
+// Login function
 async function login() {
     const aadharCardNumber = document.getElementById("aadhar").value;
     const password = document.getElementById("password").value;
 
     try {
-        const response = await apiRequest(
-            "/user/login",
-            "POST",
-            { aadharCardNumber, password }
-        );
+        const response = await apiRequest("/user/login", "POST", { aadharCardNumber, password });
 
-        // save token
         localStorage.setItem("token", response.token);
 
-        // 🔐 get profile to check role
-        const profile = await apiRequest(
-            "/user/profile",
-            "GET",
-            null,
-            true
-        );
-
+        const profile = await apiRequest("/user/profile", "GET", null, true);
         const role = profile.user.role;
 
-        // 🎯 ROLE BASED REDIRECT
-        if (role === "admin") {
-            window.location.href = "admin.html";
-        } else {
-            window.location.href = "vote.html";
-        }
-
+        if (role === "admin") window.location.href = "admin.html";
+        else window.location.href = "vote.html";
     } catch (err) {
         alert(err.message);
     }
 }
 
-
+// Signup function
 async function signup() {
-    //alert("Signup function called");
     const data = {
         name: document.getElementById("name").value,
         age: document.getElementById("age").value,

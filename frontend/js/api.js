@@ -1,45 +1,23 @@
-// Is file ka kaam
 
-// Backend ka base URL
+// frontend/js/api.js
 
-// JWT token automatically attach karna
+const API_URL = "https://voting-app-backend-0w9j.onrender.com"; // live backend
 
-// Common fetch helper
-const BASE_URL = "http://localhost:3000";
-
-// get token from localStorage
-function getToken() {
-    return localStorage.getItem("token");
-}
-
-// common fetch function
-async function apiRequest(endpoint, method = "GET", body = null, auth = false) {
-    const headers = {
-        "Content-Type": "application/json",
-    };
+async function apiRequest(endpoint, method = "GET", data = null, auth = false) {
+    const headers = { "Content-Type": "application/json" };
 
     if (auth) {
-        const token = getToken();
-        if (token) {
-            headers["Authorization"] = `Bearer ${token}`;
-        }
+        const token = localStorage.getItem("token");
+        if (token) headers["Authorization"] = `Bearer ${token}`;
     }
 
-    const options = {
-        method,
-        headers,
-    };
+    const config = { method, headers };
+    if (data) config.body = JSON.stringify(data);
 
-    if (body) {
-        options.body = JSON.stringify(body);
-    }
+    const response = await fetch(`${API_URL}${endpoint}`, config);
+    const resData = await response.json();
 
-    const response = await fetch(`${BASE_URL}${endpoint}`, options);
-    const data = await response.json();
+    if (!response.ok) throw new Error(resData.error || resData.message || "API Error");
 
-    if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
-    }
-
-    return data;
+    return resData;
 }
