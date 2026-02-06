@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    
+    <button onclick="logout()" class="logout-btn">Logout</button>
+
+    <h2>Add Candidate</h2>
+    <div class="auth-container">
+        <input type="text" id="cName" placeholder="Candidate Name">
+        <input type="text" id="cParty" placeholder="Party">
+        <input type="number" id="cAge" placeholder="Age">
+        <button onclick="addCandidate()">Add Candidate</button>
+    </div>
+
+    <h2>Manage Candidates</h2>
+    <div id="adminCandidateList" class="candidate-container"></div>
+
+    <h2>Results</h2>
+    <div id="adminResults" class="candidate-container"></div>
+
+    <script src="js/api.js" defer></script>
+    <script src="js/admin.js" defer></script>
+</body>
+</html>

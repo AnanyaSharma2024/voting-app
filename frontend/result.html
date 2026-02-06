@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting Results</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+    <div class="nav-left">
+        <span class="govt">🇮🇳 Government of India</span>
+    </div>
+
+    <div class="nav-right">
+        <a href="index.html">Home</a>
+        <a href="admin.html" class="admin-only">Admin</a>
+        <a href="result.html">Results</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</nav>
+    <h1>Voting Results</h1>
+    <button onclick="logout()" class="logout-btn">Logout</button>
+
+    <div id="resultsContainer" class="candidate-container">
+        <!-- Candidates results will load here -->
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/result.js"></script>
+</body>
+</html>

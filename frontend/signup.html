@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup - Voting App</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+    <div class="nav-left">
+        <span class="govt">🇮🇳 Government of India</span>
+    </div>
+
+    <div class="nav-right">
+        <a href="index.html">Home</a>
+        <a href="admin.html" class="admin-only">Admin</a>
+        <a href="result.html">Results</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+</nav>
+
+    <h1 class="main-title">e-Voting System – India</h1>
+<p class="sub-title">Secure Digital Voting Platform</p>
+
+    <div class="auth-container">
+        <h1>Signup</h1>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="number" id="age" placeholder="Age">
+        <input type="text" id="address" placeholder="Address">
+        <input type="text" id="aadhar" placeholder="Aadhar Card Number">
+        <input type="password" id="password" placeholder="Password">
+        <select id="role">
+            <option value="voter" selected>Voter</option>
+            <option value="admin">Admin</option>
+        </select>
+        <button onclick="signup()">Signup</button>
+        <p>Already have an account? <a href="index.html">Login</a></p>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

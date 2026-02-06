@@ -1,0 +1,16 @@
+{
+    "name": "Ananya Sharma",
+    "age":  "20",
+    "mobile":   "8755106340",
+    "email": "ananyasharma.8433@gmail.com",
+    "address":  "181, manas nagar shahganj agra",
+    "aadharCardNumber": "123456789012",
+    "password": "Kamla123@",
+    "role": "voter"
+}
+
+{
+    "name": "Narendra Modi",
+    "party": "BJP",
+    "age": 71
+}

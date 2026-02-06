@@ -1,0 +1,256 @@
+/* ===== Global ===== */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #eef1f4;   /* light govt grey */
+    margin: 0;
+    padding: 20px;
+    color: #1f2937;
+    padding-top: 60px;   /* jitni navbar height ho */
+}
+
+h1 {
+    text-align: center;
+    color: #0f172a; /* dark navy */
+    margin-bottom: 20px;
+}
+
+/* ===== Logout Button ===== */
+.logout-btn {
+    float: right;
+    background: #9b1c1c; /* govt red */
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background: #7f1d1d;
+}
+
+/* ===== Candidate Section ===== */
+.candidate-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 60px;
+    justify-content: center;
+}
+
+.candidate-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    width: 220px;
+    text-align: center;
+}
+
+.candidate-card h3 {
+    margin-bottom: 10px;
+    color: #111827;
+    font-size: 18px;
+}
+
+.candidate-card p {
+    font-size: 14px;
+    color: #4b5563;
+}
+
+.candidate-card button {
+    margin-top: 15px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    background: #1d4ed8; /* govt blue */
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.candidate-card button:hover {
+    background: #1e40af;
+}
+
+/* ===== Auth Pages ===== */
+.auth-container {
+    max-width: 420px;
+    margin: 90px auto;
+    background: #ffffff;
+    padding: 35px 40px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+}
+
+.auth-container h1 {
+    margin-bottom: 25px;
+    color: #0f172a;
+    font-size: 22px;
+}
+
+.auth-container input,
+.auth-container select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    font-size: 15px;
+}
+
+.auth-container input:focus,
+.auth-container select:focus {
+    outline: none;
+    border-color: #1d4ed8;
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 4px;
+    background: #1d4ed8;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.auth-container button:hover {
+    background: #1e40af;
+}
+
+.auth-container p {
+    margin-top: 18px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.auth-container a {
+    color: #1d4ed8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
+}
+.main-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #0b3c5d;
+    margin-top: 20px;
+}
+
+.sub-title {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+}
+/* NAVBAR */
+.navbar {
+    background: #0b3c5d;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 30px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.nav-left .govt {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.nav-center .nav-title {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.nav-right a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav-right a:hover {
+    text-decoration: underline;
+}
+
+.logout-btn {
+    background: #c62828;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #b71c1c;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.menu-icon {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+    color: white;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .nav-right {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #0b3c5d;
+        flex-direction: column;
+        width: 100%;
+        display: none;
+        padding: 15px 0;
+    }
+
+    .nav-right.show {
+        display: flex;
+    }
+
+    .nav-link {
+        margin: 10px 0;
+    }
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}

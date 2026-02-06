@@ -1,0 +1,59 @@
+1️⃣ ✅ Jo cheezein already thik hai
+
+Backend routes (signup, login, add candidate, vote) kaam kar rahe hain
+
+JWT authentication implemented
+
+Voter and admin roles ka differentiation hai
+
+Frontend (HTML/JS/CSS) working and API se connect ho raha hai
+
+Vote count and candidate listing functional
+
+2️⃣ ⚠️ Jo cheezein abhi missing/need improvement
+
+Security
+
+.env me JWT secret empty hai → must fill a strong secret
+
+Passwords already hashed (good)
+
+Token expiry 30 seconds nahi, backend me thoda lamba expiry (30 min ya 1 hr) production ke liye better
+
+Admin management
+
+Abhi sirf ek admin allowed, delete admin route temporary banaya tha → remove ya secure it
+
+Admin signup flow safe hona chahiye
+
+Frontend validation
+
+Fields check karne ke liye better UX (inline errors, form validation)
+
+Mobile responsive design missing
+
+Error handling
+
+Current alerts work, lekin production me toast notifications ya UI error messages better
+
+Logging / Monitoring
+
+Backend console logs fine for dev, production me proper logging (winston, morgan)
+
+Deployment-ready tweaks
+
+CORS handle karna zaroori hai agar frontend & backend alag servers pe hain
+
+Static frontend serve karne ka plan: either express.static or deploy frontend separately (Netlify/Vercel)
+
+Database URL (mongodb://localhost:27017) → cloud DB (MongoDB Atlas)
+
+Vote tampering prevention
+
+Currently user can only vote once → good
+
+But IP restrictions / brute force protection / HTTPS needed for production
+
+Frontend build
+
+Right now simple HTML/JS → production me minified JS/CSS, proper folder structure, maybe React/Next.js for better scalability
