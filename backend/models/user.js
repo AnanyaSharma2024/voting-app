@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-// ✅ Using bcryptjs instead of bcrypt for async/await friendly hashing
 const bcrypt = require('bcryptjs');
 
-// Define user schema
+// User Schema
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -13,10 +12,10 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        type: String,
+        type: String
     },
     mobile: {
-        type: String,
+        type: String
     },
     address: {
         type: String,
@@ -29,41 +28,31 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     role: {
         type: String,
         enum: ['voter', 'admin'],
-        default: 'voter',
+        default: 'voter'
     },
     isVoted: {
         type: Boolean,
-        default: false,
+        default: false
     }
 });
 
-// ✅ FIXED pre-save hook (async/await friendly, no next() error)
-// Password hashing before saving user
-userSchema.pre('save', async function() {
-    // If password not modified, skip hashing
+// Hash password before saving
+userSchema.pre('save', async function () {
     if (!this.isModified('password')) return;
 
-    // Generate salt and hash password
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    // ✅ No next() needed in modern async pre-hooks
 });
 
-// Method to compare password during login
-userSchema.methods.comparePassword = async function(candidatePassword) {
-    try {
-        const isMatch = await bcrypt.compare(candidatePassword, this.password);
-        return isMatch;
-    } catch (err) {
-        throw err;
-    }
+// Compare password
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Create User model
 const User = mongoose.model('User', userSchema);
 module.exports = User;

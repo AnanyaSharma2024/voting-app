@@ -1,39 +1,34 @@
-// server.js
 const express = require('express');
-const app = express();
+const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
 require('dotenv').config();
 
 // DB connection
 const db = require('./db');
 
-// Middleware
-app.use(express.json());
+const app = express();
+
+// Middlewares
 app.use(cors());
+app.use(bodyParser.json());
 
-// API routes
+// Routes
 const userRoutes = require('./routes/userRoutes');
-const candidateRoutes = require('./routes/candidateRoutes');
+const candidateRoutes = require('./routes/candidateRoutes'); // ✅ FIXED
 
+// Use routes
 app.use('/user', userRoutes);
 app.use('/candidate', candidateRoutes);
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, "../frontend")));
-
-// SPA fallback route (must be LAST, after all API routes)
-app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/index.html"));
+// Test route
+app.get('/', (req, res) => {
+    res.send('Voting App Backend is Running 🚀');
 });
 
-// Optional test route
-app.get('/api-test', (req, res) => {
-    res.send('Server is running 🚀');
-});
+// Port
+const PORT = process.env.PORT || 3000;
 
 // Start server
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

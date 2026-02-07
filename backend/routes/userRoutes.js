@@ -2,40 +2,120 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const { jwtAuthMiddleware, generateToken } = require('../jwt');
+const validateUserSignup = require('../middlewares/validateUser');
 
-// SIGNUP
-router.post('/signup', async (req, res) => {
-    console.log('POST /signup hit');
-    console.log('Request body:', req.body);
-
+/* =========================
+   SIGNUP ROUTE
+========================= */
+router.post(
+  '/signup',
+  validateUserSignup, // Middleware for validation
+  async (req, res) => {
     try {
         const data = req.body;
 
-        // age string → number
-        if (data.age) {
-            data.age = Number(data.age);
-        }
-
-        // only one admin allowed
+        // Only one admin allowed
         if (data.role === 'admin') {
-            const existingAdmin = await User.findOne({ role: 'admin' });
-            if (existingAdmin) {
-                return res.status(400).json({
-                    error: 'Admin already exists. Only one admin is allowed.'
-                });
+            const adminUser = await User.findOne({ role: 'admin' });
+            if (adminUser) {
+                return res.status(400).json({ error: 'Admin already exists' });
             }
         }
 
-        // ❌ NO bcrypt here
+        // Create new user
         const newUser = new User(data);
-        const response = await newUser.save();
+        const savedUser = await newUser.save();
 
-        const token = generateToken({ id: response._id });
+        // Generate JWT token
+        const token = generateToken({ id: savedUser.id });
 
-        res.status(201).json({ response, token });
+        res.status(201).json({
+            response: savedUser,
+            token: token
+        });
 
     } catch (err) {
-        console.error('SIGNUP ERROR 🔴', err);
-        res.status(500).json({ error: err.message });
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+/* =========================
+   LOGIN ROUTE
+========================= */
+router.post('/login', async (req, res) => {
+    try {
+        const { aadharCardNumber, password } = req.body;
+
+        if (!aadharCardNumber || !password) {
+            return res.status(400).json({
+                error: 'Aadhar Card Number and password are required'
+            });
+        }
+
+        const user = await User.findOne({ aadharCardNumber });
+
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(401).json({
+                error: 'Invalid Aadhar Card Number or Password'
+            });
+        }
+
+        const token = generateToken({ id: user.id });
+        res.status(200).json({ token });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+/* =========================
+   PROFILE ROUTE
+========================= */
+router.get('/profile', jwtAuthMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById(userId).select('-password'); // don't return password
+        res.status(200).json({ user });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+/* =========================
+   UPDATE PASSWORD ROUTE
+========================= */
+router.put('/profile/password', jwtAuthMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({
+                error: 'currentPassword and newPassword are required'
+            });
+        }
+
+        const user = await User.findById(userId);
+
+        if (!user || !(await user.comparePassword(currentPassword))) {
+            return res.status(401).json({
+                error: 'Invalid current password'
+            });
+        }
+
+        user.password = newPassword;
+        await user.save();
+
+        res.status(200).json({ message: 'Password updated successfully' });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+module.exports = router;
