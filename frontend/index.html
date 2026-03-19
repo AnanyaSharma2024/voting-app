@@ -1,35 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - Voting App</title>
+    <meta charset="UTF-8"> <!-- character encoding for text -->
+    <title>Voting Results</title> <!-- title shown in browser tab -->
+
+    <!-- link to main stylesheet -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+    <!-- ===== Navigation Bar ===== -->
     <nav class="navbar">
-    <div class="nav-left">
-        <span class="govt">🇮🇳 Government of India</span>
+
+        <!-- Left side: Government label -->
+        <div class="nav-left">
+            <span class="govt">🇮🇳 Government of India</span>
+        </div>
+
+        <!-- Right side: navigation links -->
+        <div class="nav-right">
+            <a href="index.html">Home</a> <!-- go to home page -->
+            <a href="admin.html" class="admin-only">Admin</a> <!-- admin panel -->
+            <a href="result.html">Results</a> <!-- current results page -->
+
+            <!-- logout button (calls logout function) -->
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main heading -->
+    <h1>Voting Results</h1>
+
+    <!-- Extra logout button -->
+    <button onclick="logout()" class="logout-btn">Logout</button>
+
+    <!-- ===== Results Display Section ===== -->
+
+    <!-- container where results will be inserted dynamically using JavaScript -->
+    <div id="resultsContainer" class="candidate-container">
+        <!-- Candidates results will load here -->
     </div>
 
-    <div class="nav-right">
-        <a href="index.html">Home</a>
-        <a href="admin.html" class="admin-only">Admin</a>
-        <a href="result.html">Results</a>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
-</nav>
-    <h1 class="main-title">e-Voting System – India</h1>
-    <p class="sub-title">Secure Digital Voting Platform</p>
+    <!-- ===== JavaScript Files ===== -->
 
-    <div class="auth-container">
-        <h1>Login</h1>
-        <input type="text" id="aadhar" placeholder="Aadhar Card Number">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <p>Don't have an account? <a href="signup.html">Signup</a></p>
-    </div>
-
+    <!-- handles API calls (fetching data from backend) -->
     <script src="js/api.js"></script>
-    <script src="js/auth.js"></script>
+
+    <!-- handles result display logic -->
+    <script src="js/result.js"></script>
+
 </body>
 </html>

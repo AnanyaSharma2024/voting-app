@@ -1,44 +1,47 @@
 /* ===== Global ===== */
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #eef1f4;   /* light govt grey */
-    margin: 0;
-    padding: 20px;
-    color: #1f2937;
-    padding-top: 60px;   /* jitni navbar height ho */
+    font-family: "Segoe UI", Arial, sans-serif; /* overall font styling */
+    background: #eef1f4;   /* light background color */
+    margin: 0; /* remove default margin */
+    padding: 20px; /* space inside body */
+    color: #1f2937; /* default text color */
+    padding-top: 60px;   /* space for fixed navbar */
 }
 
+/* Main heading styling */
 h1 {
-    text-align: center;
-    color: #0f172a; /* dark navy */
-    margin-bottom: 20px;
+    text-align: center; /* center align text */
+    color: #0f172a; /* dark color */
+    margin-bottom: 20px; /* spacing below heading */
 }
 
 /* ===== Logout Button ===== */
 .logout-btn {
-    float: right;
-    background: #9b1c1c; /* govt red */
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
+    float: right; /* align button to right */
+    background: #9b1c1c; /* red background */
+    color: #fff; /* text color */
+    border: none; /* remove border */
+    padding: 8px 16px; /* spacing inside button */
+    border-radius: 4px; /* rounded corners */
+    cursor: pointer; /* pointer on hover */
     font-size: 14px;
 }
 
+/* hover effect for logout button */
 .logout-btn:hover {
     background: #7f1d1d;
 }
 
 /* ===== Candidate Section ===== */
 .candidate-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: flex; /* flex layout */
+    flex-wrap: wrap; /* wrap items in next line */
+    gap: 20px; /* space between cards */
     margin-top: 60px;
-    justify-content: center;
+    justify-content: center; /* center align cards */
 }
 
+/* individual candidate card */
 .candidate-card {
     background: #ffffff;
     padding: 20px;
@@ -48,51 +51,57 @@ h1 {
     text-align: center;
 }
 
+/* candidate name */
 .candidate-card h3 {
     margin-bottom: 10px;
     color: #111827;
     font-size: 18px;
 }
 
+/* candidate description */
 .candidate-card p {
     font-size: 14px;
     color: #4b5563;
 }
 
+/* vote button */
 .candidate-card button {
     margin-top: 15px;
     padding: 8px 14px;
     border: none;
     border-radius: 4px;
-    background: #1d4ed8; /* govt blue */
+    background: #1d4ed8; /* blue color */
     color: white;
     cursor: pointer;
     font-size: 14px;
 }
 
+/* hover effect for vote button */
 .candidate-card button:hover {
     background: #1e40af;
 }
 
-/* ===== Auth Pages ===== */
+/* ===== Auth Pages (Login/Register) ===== */
 .auth-container {
-    max-width: 420px;
-    margin: 90px auto;
+    max-width: 420px; /* limit width */
+    margin: 90px auto; /* center vertically & horizontally */
     background: #ffffff;
     padding: 35px 40px;
     border-radius: 6px;
     border: 1px solid #d1d5db;
 }
 
+/* auth page heading */
 .auth-container h1 {
     margin-bottom: 25px;
     color: #0f172a;
     font-size: 22px;
 }
 
+/* input fields & dropdown */
 .auth-container input,
 .auth-container select {
-    width: 100%;
+    width: 100%; /* full width */
     padding: 10px;
     margin: 10px 0;
     border-radius: 4px;
@@ -100,12 +109,14 @@ h1 {
     font-size: 15px;
 }
 
+/* focus effect on input */
 .auth-container input:focus,
 .auth-container select:focus {
     outline: none;
-    border-color: #1d4ed8;
+    border-color: #1d4ed8; /* blue border on focus */
 }
 
+/* submit button */
 .auth-container button {
     width: 100%;
     padding: 10px;
@@ -118,16 +129,19 @@ h1 {
     cursor: pointer;
 }
 
+/* hover effect */
 .auth-container button:hover {
     background: #1e40af;
 }
 
+/* text below form */
 .auth-container p {
     margin-top: 18px;
     font-size: 14px;
     color: #374151;
 }
 
+/* links (login/register switch) */
 .auth-container a {
     color: #1d4ed8;
     text-decoration: none;
@@ -137,6 +151,8 @@ h1 {
 .auth-container a:hover {
     text-decoration: underline;
 }
+
+/* main title on homepage */
 .main-title {
     text-align: center;
     font-size: 28px;
@@ -145,6 +161,7 @@ h1 {
     margin-top: 20px;
 }
 
+/* subtitle below main title */
 .sub-title {
     text-align: center;
     font-size: 14px;
@@ -152,36 +169,41 @@ h1 {
     margin-bottom: 30px;
 }
 
+/* page title */
 .page-title {
     text-align: center;
     font-size: 22px;
     color: #333;
     margin-bottom: 20px;
 }
-/* NAVBAR */
+
+/* ===== NAVBAR ===== */
 .navbar {
-    background: #0b3c5d;
+    background: #0b3c5d; /* navbar background */
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; /* flex layout */
+    align-items: center; /* vertical alignment */
+    justify-content: space-between; /* space between sections */
     padding: 12px 30px;
     font-family: Arial, sans-serif;
     box-sizing: border-box;
 }
 
+/* left side text (govt name) */
 .nav-left .govt {
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 1px;
 }
 
+/* center title */
 .nav-center .nav-title {
     font-size: 18px;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
+/* right side links */
 .nav-right a {
     color: white;
     margin-right: 15px;
@@ -189,10 +211,12 @@ h1 {
     font-size: 14px;
 }
 
+/* hover on links */
 .nav-right a:hover {
     text-decoration: underline;
 }
 
+/* logout button inside navbar */
 .logout-btn {
     background: #c62828;
     border: none;
@@ -202,9 +226,12 @@ h1 {
     cursor: pointer;
 }
 
+/* hover effect */
 .logout-btn:hover {
     background: #b71c1c;
 }
+
+/* fix navbar at top */
 .navbar {
     position: fixed;
     top: 0;
@@ -212,6 +239,8 @@ h1 {
     width: 100%;
     z-index: 1000;
 }
+
+/* hamburger menu icon (hidden by default) */
 .menu-icon {
     display: none;
     font-size: 26px;
@@ -219,12 +248,15 @@ h1 {
     color: white;
 }
 
-/* Mobile view */
+/* ===== Mobile view ===== */
 @media (max-width: 768px) {
+
+    /* show menu icon */
     .menu-icon {
         display: block;
     }
 
+    /* mobile menu styling */
     .nav-right {
         position: absolute;
         top: 60px;
@@ -236,20 +268,25 @@ h1 {
         padding: 15px 0;
     }
 
+    /* show menu when toggled */
     .nav-right.show {
         display: flex;
     }
 
+    /* spacing between links */
     .nav-link {
         margin: 10px 0;
     }
 }
+
+/* navbar layout alignment */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* right section alignment */
 .nav-right {
     display: flex;
     align-items: center;

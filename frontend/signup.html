@@ -1,43 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Signup - Voting App</title>
+    <meta charset="UTF-8"> <!-- character encoding -->
+    <title>Signup - Voting App</title> <!-- browser tab title -->
+
+    <!-- link to external CSS file -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+    <!-- ===== Navigation Bar ===== -->
     <nav class="navbar">
-    <div class="nav-left">
-        <span class="govt">🇮🇳 Government of India</span>
-    </div>
 
-    <div class="nav-right">
-        <a href="index.html">Home</a>
-        <a href="admin.html" class="admin-only">Admin</a>
-        <a href="result.html">Results</a>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
-</nav>
+        <!-- Left section (Govt label) -->
+        <div class="nav-left">
+            <span class="govt">🇮🇳 Government of India</span>
+        </div>
 
+        <!-- Right section (navigation links) -->
+        <div class="nav-right">
+            <a href="index.html">Home</a> <!-- home page -->
+            <a href="admin.html" class="admin-only">Admin</a> <!-- admin page -->
+            <a href="result.html">Results</a> <!-- results page -->
+
+            <!-- logout button -->
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- ===== Page Title Section ===== -->
+
+    <!-- main heading -->
     <h1 class="main-title">e-Voting System – India</h1>
-<p class="sub-title">Secure Digital Voting Platform</p>
 
+    <!-- subtitle below main heading -->
+    <p class="sub-title">Secure Digital Voting Platform</p>
+
+    <!-- ===== Signup Form ===== -->
+
+    <!-- container for signup form -->
     <div class="auth-container">
-        <h1>Signup</h1>
+
+        <h1>Signup</h1> <!-- form heading -->
+
+        <!-- user name input -->
         <input type="text" id="name" placeholder="Full Name">
+
+        <!-- user age input -->
         <input type="number" id="age" placeholder="Age">
+
+        <!-- address input -->
         <input type="text" id="address" placeholder="Address">
+
+        <!-- aadhar number input -->
         <input type="text" id="aadhar" placeholder="Aadhar Card Number">
+
+        <!-- password input -->
         <input type="password" id="password" placeholder="Password">
+
+        <!-- role selection (voter/admin) -->
         <select id="role">
-            <option value="voter" selected>Voter</option>
+            <option value="voter" selected>Voter</option> <!-- default role -->
             <option value="admin">Admin</option>
         </select>
+
+        <!-- signup button triggers signup function -->
         <button onclick="signup()">Signup</button>
+
+        <!-- link to login page -->
         <p>Already have an account? <a href="index.html">Login</a></p>
     </div>
 
+    <!-- ===== JavaScript Files ===== -->
+
+    <!-- API related operations -->
     <script src="js/api.js"></script>
+
+    <!-- authentication logic (signup, login handling) -->
     <script src="js/auth.js"></script>
+
 </body>
 </html>

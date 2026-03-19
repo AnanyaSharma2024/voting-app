@@ -1,30 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <meta charset="UTF-8"> <!-- character encoding -->
+    <title>Admin Dashboard</title> <!-- page title -->
+
+    <!-- link to external CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+    <!-- ===== Page Heading ===== -->
     <h1>Admin Dashboard</h1>
-    
+
+    <!-- logout button (calls logout function) -->
     <button onclick="logout()" class="logout-btn">Logout</button>
 
+    <!-- ===== Add Candidate Section ===== -->
     <h2>Add Candidate</h2>
+
+    <!-- form container for adding new candidate -->
     <div class="auth-container">
+
+        <!-- input for candidate name -->
         <input type="text" id="cName" placeholder="Candidate Name">
+
+        <!-- input for party name -->
         <input type="text" id="cParty" placeholder="Party">
+
+        <!-- input for candidate age -->
         <input type="number" id="cAge" placeholder="Age">
+
+        <!-- button to trigger addCandidate function -->
         <button onclick="addCandidate()">Add Candidate</button>
     </div>
 
+    <!-- ===== Manage Candidates Section ===== -->
     <h2>Manage Candidates</h2>
+
+    <!-- container where candidate list will be dynamically loaded -->
     <div id="adminCandidateList" class="candidate-container"></div>
 
+    <!-- ===== Results Section ===== -->
     <h2>Results</h2>
+
+    <!-- container where voting results will be displayed -->
     <div id="adminResults" class="candidate-container"></div>
 
+    <!-- ===== JavaScript Files ===== -->
+
+    <!-- API functions (backend communication) -->
     <script src="js/api.js" defer></script>
+
+    <!-- admin-specific logic (add/manage candidates, results) -->
     <script src="js/admin.js" defer></script>
+
 </body>
 </html>
