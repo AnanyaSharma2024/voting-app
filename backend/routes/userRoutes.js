@@ -7,10 +7,7 @@ const validateUserSignup = require('../middlewares/validateUser');
 /* =========================
    SIGNUP ROUTE
 ========================= */
-router.post(
-  '/signup',
-  validateUserSignup, // Middleware for validation
-  async (req, res) => {
+router.post('/signup', validateUserSignup, async (req, res) => {
     try {
         const data = req.body;
 
@@ -29,8 +26,12 @@ router.post(
         // Generate JWT token
         const token = generateToken({ id: savedUser.id });
 
+        // Remove password before sending response
+        const userObj = savedUser.toObject();
+        delete userObj.password;
+
         res.status(201).json({
-            response: savedUser,
+            response: userObj,
             token: token
         });
 
@@ -62,6 +63,7 @@ router.post('/login', async (req, res) => {
         }
 
         const token = generateToken({ id: user.id });
+
         res.status(200).json({ token });
 
     } catch (err) {
@@ -76,7 +78,8 @@ router.post('/login', async (req, res) => {
 router.get('/profile', jwtAuthMiddleware, async (req, res) => {
     try {
         const userId = req.user.id;
-        const user = await User.findById(userId).select('-password'); // don't return password
+        const user = await User.findById(userId).select('-password');
+
         res.status(200).json({ user });
 
     } catch (err) {

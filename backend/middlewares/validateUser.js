@@ -14,15 +14,18 @@ const validateUserSignup = async (req, res, next) => {
             return res.status(400).json({ error: 'Age must be 18 or above' });
         }
 
-        // 3️⃣ Duplicate Aadhar
-        if (aadharCardNumber) {
-            const aadharExists = await User.findOne({ aadharCardNumber });
-            if (aadharExists) {
-                return res.status(400).json({ error: 'Aadhar already registered' });
-            }
+        // 3️⃣ Aadhar format check
+        if (!/^\d{12}$/.test(aadharCardNumber)) {
+            return res.status(400).json({ error: 'Invalid Aadhar format' });
         }
 
-        // 4️⃣ Duplicate email (if provided)
+        // 4️⃣ Duplicate Aadhar
+        const aadharExists = await User.findOne({ aadharCardNumber });
+        if (aadharExists) {
+            return res.status(400).json({ error: 'Aadhar already registered' });
+        }
+
+        // 5️⃣ Duplicate email
         if (email) {
             const emailExists = await User.findOne({ email });
             if (emailExists) {
@@ -30,7 +33,7 @@ const validateUserSignup = async (req, res, next) => {
             }
         }
 
-        // 5️⃣ Duplicate mobile (if provided)
+        // 6️⃣ Duplicate mobile
         if (mobile) {
             const mobileExists = await User.findOne({ mobile });
             if (mobileExists) {
@@ -38,7 +41,8 @@ const validateUserSignup = async (req, res, next) => {
             }
         }
 
-        next(); // ✅ sab sahi, controller pe jao
+        next();
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Validation failed' });
