@@ -1,0 +1,116 @@
+MONGODB_URL_LOCAL=mongodb://localhost:27017/voting
+JWT_SECRET=12345
+PORT=3000
+
+ADMIN TOKEN sign up 
+ "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5Yzk2YjdlMjliNjg5YmQwZWU4ZGMyYSIsImlhdCI6MTc3NDgwNzkzNSwiZXhwIjoxNzc0ODExNTM1fQ.7B2CIbSzQrLMxiDk0sswtPQS2EOGWZW2GKyOSY0Oodw"
+
+ADMIN TOKEN login 
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5Yzk2YjdlMjliNjg5YmQwZWU4ZGMyYSIsImlhdCI6MTc3NDgwODA5NiwiZXhwIjoxNzc0ODExNjk2fQ.Kw_LXHi6g9ANGvIm1o-2MnOFqhXD0D_Y3Y6CfrA2-eA"
+
+USER sign up will be used when they will vote 
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5Yzk2ZDY0MjliNjg5YmQwZWU4ZGMzMyIsImlhdCI6MTc3NDgwODQyMCwiZXhwIjoxNzc0ODEyMDIwfQ.5YLuUEmsjD3cTSl8QWBYs9mccHGDg1hxpUYjMLR7ABk"
+
+STEP 1: SIGNUP (Admin)
+🔹 Method: POST
+🔹 URL:
+http://localhost:3000/user/signup
+🔹 Body (JSON):
+{
+  "name": "Admin User",
+  "age": 25,
+  "email": "admin@test.com",
+  "mobile": "9999999999",
+  "address": "Delhi",
+  "aadharCardNumber": "123456789012",
+  "password": "admin123",
+  "role": "admin"
+}
+👉 Response:
+token milega ✅
+👉 Is token ko copy kar lo (IMPORTANT)
+
+
+🧪 STEP 2: LOGIN (Admin)
+🔹 POST
+http://localhost:3000/user/login
+{
+  "aadharCardNumber": "123456789012",
+  "password": "admin123"
+}
+👉 token milega (fresh)
+👉 ise use karenge next step me
+
+
+🧪 STEP 3: ADD CANDIDATE (Admin only)
+🔹 POST
+http://localhost:3000/candidate
+🔹 Headers:
+Authorization: Bearer YOUR_TOKEN
+🔹 Body:
+{
+  "name": "Candidate 1",
+  "party": "ABC Party",
+  "age": 40
+}
+👉 Response: candidate add ho jayega ✅
+👉 2–3 candidates add kar lo (demo ke liye)
+
+
+🧪 STEP 4: VOTER SIGNUP
+🔹 Method: POST
+🔹 URL:
+http://localhost:3000/user/signup
+🔹 Body (JSON):
+{
+  "name": "Voter 1",
+  "age": 22,
+  "email": "voter1@test.com",
+  "mobile": "8888888888",
+  "address": "Lucknow",
+  "aadharCardNumber": "987654321012",
+  "password": "voter123",
+  "role": "voter"
+}
+✅ Response:
+{
+  "response": {
+    "_id": "63xxxx",
+    "name": "Voter 1",
+    "age": 22,
+    "email": "voter1@test.com",
+    "mobile": "8888888888",
+    "address": "Lucknow",
+    "aadharCardNumber": "987654321012",
+    "role": "voter",
+    "isVoted": false,
+    "__v": 0
+  },
+  "token": "JWT_TOKEN_HERE"
+}
+Important: token ko copy karo, ye voter ke liye vote karne me use hoga.
+
+
+🧪 STEP 5: VOTER CAST VOTE
+🔹 Method: GET
+🔹 URL:
+http://localhost:3000/candidate/vote/CANDIDATE_ID
+CANDIDATE_ID = MongoDB me jo candidate add kiya tha, uska _id.
+Example:
+63a7f5c8d2a1b5f7c9a1d0f2
+🔹 Header:
+Authorization: Bearer VOTER_TOKEN
+VOTER_TOKEN = step 4 me jo token mila tha voter ko.
+🔹 Response (First Vote):
+{
+  "message": "Vote recorded successfully"
+}
+🔹 Response (If voter votes again):
+{
+  "message": "You have already voted"
+}
+🔹 Notes:
+Admins cannot vote. Agar admin token se try karega:
+{
+  "message": "admin is not allowed"
+}

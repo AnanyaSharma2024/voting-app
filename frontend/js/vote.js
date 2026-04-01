@@ -1,5 +1,6 @@
 // vote.js
-
+// 🔥 SOCKET CONNECT
+const socket = io("http://localhost:3000");
 // 🔐 VOTER PAGE PROTECTION
 
 // 🔑 Local storage se token nikaal rahe hain
@@ -75,3 +76,8 @@ function logout() {
 
 // ⚡ Page load hote hi candidates automatically load ho jayenge
 window.onload = loadCandidates;
+// 🔥 LIVE UPDATE
+socket.on("voteUpdated", () => {
+    console.log("Live vote update received");
+    loadCandidates();
+});
