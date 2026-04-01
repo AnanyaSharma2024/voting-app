@@ -3,10 +3,31 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 
+const http = require('http');              // ✅ ADD
+const { Server } = require('socket.io');   // ✅ ADD
+
 // DB connection
 const db = require('./db');
 
 const app = express();
+
+// 👇 HTTP server create
+const server = http.createServer(app);
+
+// 👇 Socket setup
+const io = new Server(server, {
+    cors: {
+        origin: "*"
+    }
+});
+
+// 👇 socket connection log
+io.on('connection', (socket) => {
+    console.log('User connected:', socket.id);
+});
+
+// 👇 IMPORTANT (routes me use hoga)
+app.set('io', io);
 
 // Middlewares
 app.use(cors());
@@ -14,9 +35,8 @@ app.use(bodyParser.json());
 
 // Routes
 const userRoutes = require('./routes/userRoutes');
-const candidateRoutes = require('./routes/candidateRoutes'); // ✅ FIXED
+const candidateRoutes = require('./routes/candidateRoutes');
 
-// Use routes
 app.use('/user', userRoutes);
 app.use('/candidate', candidateRoutes);
 
@@ -28,7 +48,8 @@ app.get('/', (req, res) => {
 // Port
 const PORT = process.env.PORT || 3000;
 
-// Start server
-app.listen(PORT, () => {
+// ❌ app.listen hatao
+// ✅ server.listen use karo
+server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
