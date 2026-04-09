@@ -32,36 +32,52 @@ async function login() {
 // Signup function
 async function signup() {
 
-    // 📥 Form se saari user details collect kar rahe hain
     const data = {
+
         name: document.getElementById("name").value,
         age: document.getElementById("age").value,
         address: document.getElementById("address").value,
+
+        email: document.getElementById("email").value,
+        mobile: document.getElementById("mobile").value,
+
         aadharCardNumber: document.getElementById("aadhar").value,
         password: document.getElementById("password").value,
         role: document.getElementById("role").value
+
     };
 
-    // ⚠️ Validation: koi field empty nahi honi chahiye
-    if (!data.name || !data.age || !data.address || !data.aadharCardNumber || !data.password) {
-        alert("All fields are required");
-        return; // Aage execution stop
+    if (
+        !data.name ||
+        !data.age ||
+        !data.address ||
+        !data.aadharCardNumber ||
+        !data.password
+    ) {
+        alert("All required fields must be filled");
+        return;
     }
 
     try {
-        // 📡 Backend ko signup request bhej rahe hain
-        const response = await apiRequest("/user/signup", "POST", data);
 
-        // 🔐 Signup ke baad bhi token milta hai → usko store kar rahe hain
-        localStorage.setItem("token", response.token);
+        const response = await apiRequest(
+            "/user/signup",
+            "POST",
+            data
+        );
 
-        // ✅ Success message
-        alert("Signup successful");
+        localStorage.setItem(
+            "token",
+            response.token
+        );
 
-        // 🔀 Signup ke baad user ko voting page pe bhej rahe hain
+        alert("Signup successful ✅");
+
         window.location.href = "vote.html";
+
     } catch (err) {
-        // ❌ Error handling (jaise user already exist, etc.)
+
         alert(err.message);
+
     }
 }

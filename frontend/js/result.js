@@ -1,45 +1,79 @@
 // result.js
 
-// 📊 Voting results load karne ka function
+// 🔐 Check login
+
+const token = localStorage.getItem("token");
+
+if (!token) {
+
+alert("Please login first");
+
+window.location.href = "login.html";
+
+}
+
+
+// 📊 Load Results
+
 async function loadResults() {
-    try {
-        // 📡 Backend se vote count data fetch kar rahe hain (auth = true → token use hoga)
-        const results = await apiRequest("/candidate/vote/count", "GET", null, true);
 
-        // 🧾 HTML container select kar rahe hain jahan results show honge
-        const container = document.getElementById("resultsContainer");
+try {
 
-        // 🧹 Purane results clear kar diye
-        container.innerHTML = "";
+const results = await apiRequest(
+"/candidate/vote/count",
+"GET",
+null,
+true
+);
 
-        // 🔁 Har candidate/party ke liye ek card bana rahe hain
-        results.forEach(c => {
-            const div = document.createElement("div");
-            div.classList.add("candidate-card");
+const container =
+document.getElementById(
+"resultsContainer"
+);
 
-            // 🧩 Party name aur vote count display kar rahe hain
-            div.innerHTML = `
-                <h3>${c.party}</h3>
-                <p>Votes: ${c.count}</p>
-            `;
+container.innerHTML = "";
 
-            // 📌 Card ko container me add kar diya
-            container.appendChild(div);
-        });
-    } catch (err) {
-        // ❌ Agar API error aata hai toh alert show karo
-        alert(err.message);
-    }
+results.forEach(c => {
+
+const div =
+document.createElement("div");
+
+div.classList.add(
+"candidate-card"
+);
+
+div.innerHTML = `
+
+<h3>${c.party}</h3>
+
+<p>Votes: ${c.count}</p>
+
+`;
+
+container.appendChild(div);
+
+});
+
+} catch (err) {
+
+alert(err.message);
+
 }
 
-// 🚪 Logout function
+}
+
+
+// 🚪 Logout
+
 function logout() {
-    // 🔐 Token remove kar diya → user logout
-    localStorage.removeItem("token");
 
-    // 🔀 User ko home page pe redirect kar diya
-    window.location.href = "index.html";
+localStorage.removeItem("token");
+
+window.location.href = "login.html";
+
 }
 
-// ⚡ Page load hote hi automatically results load ho jayenge
+
+// Auto Load
+
 window.onload = loadResults;

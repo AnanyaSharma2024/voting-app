@@ -1,8 +1,5 @@
 // frontend/js/api.js
-
-// 🌐 Backend ka base URL (live deployed server)
-const API_URL = "https://voting-app-backend-0w9j.onrender.com"; // live backend
-
+const API_URL = "http://localhost:3000";
 // 🔁 Generic API request function (har API call ke liye reusable)
 async function apiRequest(endpoint, method = "GET", data = null, auth = false) {
 
