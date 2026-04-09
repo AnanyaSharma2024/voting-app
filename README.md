@@ -108,6 +108,16 @@ Cast vote
 View real-time vote updates
 Check email confirmation
 
+📡 Real-Time Features
+
+This application uses Socket.IO to provide:
+
+Instant vote count updates
+Live synchronization across devices
+Real-time candidate vote refresh
+
+Without needing page reload.
+
 🔐 Security Features
 Passwords are hashed using bcryptjs.
 JWT tokens ensure that only authenticated users access protected routes.

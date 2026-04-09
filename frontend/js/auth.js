@@ -1,52 +1,93 @@
-// Login function
+// ================= LOGIN FUNCTION =================
 async function login() {
 
-    // 📥 Input fields se user credentials le rahe hain
-    const aadharCardNumber = document.getElementById("aadhar").value;
-    const password = document.getElementById("password").value;
+    const aadharCardNumber =
+        document.getElementById("aadhar").value;
+
+    const password =
+        document.getElementById("password").value;
 
     try {
-        // 📡 Backend ko login request bhej rahe hain (POST)
-        const response = await apiRequest("/user/login", "POST", { aadharCardNumber, password });
 
-        // 🔐 Login successful hone par JWT token localStorage me save kar rahe hain
-        localStorage.setItem("token", response.token);
+        const response =
+            await apiRequest(
+                "/user/login",
+                "POST",
+                { aadharCardNumber, password }
+            );
 
-        // 👤 Login ke baad user ka profile fetch kar rahe hain (auth = true → token use hoga)
-        const profile = await apiRequest("/user/profile", "GET", null, true);
+        // Save token
+        localStorage.setItem(
+            "token",
+            response.token
+        );
 
-        // 🧠 User ka role nikaal rahe hain (admin ya normal user)
-        const role = profile.user.role;
+        // Get profile
+        const profile =
+            await apiRequest(
+                "/user/profile",
+                "GET",
+                null,
+                true
+            );
 
-        // 🔀 Role ke basis pe redirect kar rahe hain
-        if (role === "admin") 
-            window.location.href = "admin.html"; // Admin dashboard
-        else 
-            window.location.href = "vote.html"; // Voting page
+        const role =
+            profile.user.role;
+
+        // Redirect based on role
+        if (role === "admin") {
+
+            window.location.href =
+                "admin.html";
+
+        } else {
+
+            window.location.href =
+                "vote.html";
+
+        }
+
     } catch (err) {
-        // ❌ Agar login fail ho gaya toh error show karo
+
         alert(err.message);
+
     }
 }
 
-// Signup function
+
+
+// ================= SIGNUP FUNCTION =================
 async function signup() {
 
     const data = {
 
-        name: document.getElementById("name").value,
-        age: document.getElementById("age").value,
-        address: document.getElementById("address").value,
+        name:
+            document.getElementById("name").value,
 
-        email: document.getElementById("email").value,
-        mobile: document.getElementById("mobile").value,
+        age:
+            document.getElementById("age").value,
 
-        aadharCardNumber: document.getElementById("aadhar").value,
-        password: document.getElementById("password").value,
-        role: document.getElementById("role").value
+        address:
+            document.getElementById("address").value,
+
+        email:
+            document.getElementById("email")?.value || "",
+
+        mobile:
+            document.getElementById("mobile")?.value || "",
+
+        aadharCardNumber:
+            document.getElementById("aadhar").value,
+
+        password:
+            document.getElementById("password").value,
+
+        role:
+            document.getElementById("role").value
 
     };
 
+    // Required fields validation
     if (
         !data.name ||
         !data.age ||
@@ -54,18 +95,23 @@ async function signup() {
         !data.aadharCardNumber ||
         !data.password
     ) {
+
         alert("All required fields must be filled");
+
         return;
+
     }
 
     try {
 
-        const response = await apiRequest(
-            "/user/signup",
-            "POST",
-            data
-        );
+        const response =
+            await apiRequest(
+                "/user/signup",
+                "POST",
+                data
+            );
 
+        // Save token
         localStorage.setItem(
             "token",
             response.token
@@ -73,7 +119,8 @@ async function signup() {
 
         alert("Signup successful ✅");
 
-        window.location.href = "vote.html";
+        window.location.href =
+            "vote.html";
 
     } catch (err) {
 
@@ -81,3 +128,72 @@ async function signup() {
 
     }
 }
+
+
+
+// ================= NAVBAR ADMIN HIDE/SHOW =================
+async function checkAdminNavbar() {
+
+    const token =
+        localStorage.getItem("token");
+
+    // If no login → hide admin
+    if (!token) {
+
+        const adminLinks =
+            document.querySelectorAll(".admin-only");
+
+        adminLinks.forEach(link => {
+
+            link.style.display = "none";
+
+        });
+
+        return;
+    }
+
+    try {
+
+        const profile =
+            await apiRequest(
+                "/user/profile",
+                "GET",
+                null,
+                true
+            );
+
+        const role =
+            profile.user.role;
+
+        const adminLinks =
+            document.querySelectorAll(".admin-only");
+
+        if (role === "admin") {
+
+            adminLinks.forEach(link => {
+
+                link.style.display = "inline";
+
+            });
+
+        } else {
+
+            adminLinks.forEach(link => {
+
+                link.style.display = "none";
+
+            });
+
+        }
+
+    } catch (err) {
+
+        console.log("Navbar role check failed");
+
+    }
+
+}
+
+
+// Run navbar check when page loads
+window.onload = checkAdminNavbar;
