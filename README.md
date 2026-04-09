@@ -25,22 +25,39 @@ Frontend	HTML, CSS, JavaScript
 Voting_App/
 │
 ├── backend/
-│   ├── models/
-│   │   ├── user.js
-│   │   └── candidate.js
-│   ├── routes/
-│   │   ├── userRoutes.js
-│   │   └── candidateRoutes.js
-│   └── jwt.js
+│ ├── models/
+│ │ ├── user.js
+│ │ └── candidate.js
+│ │
+│ ├── routes/
+│ │ ├── userRoutes.js
+│ │ └── candidateRoutes.js
+│ │
+│ ├── middlewares/
+│ │ └── validateUser.js
+│ │
+│ ├── emailServices.js
+│ ├── jwt.js
+│ ├── db.js
+│ └── server.js
 │
 ├── frontend/
-│   ├── index.html
-│   ├── admin.html
-│   ├── vote.html
-│   ├── result.html
-│   ├── signup.html
-│   ├── js/
-│   └── css/
+│ ├── index.html
+│ ├── admin.html
+│ ├── vote.html
+│ ├── result.html
+│ ├── signup.html
+│ ├── login.html
+│ │
+│ ├── js/
+│ │ ├── api.js
+│ │ ├── auth.js
+│ │ ├── vote.js
+│ │ ├── admin.js
+│ │ └── result.js
+│ │
+│ └── css/
+│ └── style.css
 │
 ├── package.json
 └── README.md
@@ -82,11 +99,14 @@ Open frontend:
 Open frontend/index.html in your browser.
 
 🧪 Testing the Application
-Register a voter and an admin account.
-Admin can add candidates.
-Voter can vote for one candidate.
-Vote counts update automatically.
-JWT token protects all sensitive operations.
+Register Admin account
+Login as Admin
+Add candidates
+Register Voter account
+Login as Voter
+Cast vote
+View real-time vote updates
+Check email confirmation
 
 🔐 Security Features
 Passwords are hashed using bcryptjs.
