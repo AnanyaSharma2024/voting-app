@@ -1,70 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<title>e-Voting System</title>
-
-<link rel="stylesheet" href="css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matdan — e-Voting System India</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+    <div class="tricolor-topbar"><span></span><span></span><span></span></div>
 
-<!-- ===== Navbar ===== -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-emblem"></div>
+            <div class="nav-brand">
+                <span class="nav-brand-title">MATDAN</span>
+                <span class="nav-brand-sub">e-Voting System — India</span>
+            </div>
+        </div>
+        <button class="menu-icon" onclick="toggleMenu()">&#9776;</button>
+        <div class="nav-right" id="navMenu">
+            <a href="login.html">Login</a>
+            <a href="signup.html">Register</a>
+            <a href="result.html">Results</a>
+        </div>
+    </nav>
 
-<nav class="navbar">
+    <section class="hero">
+        <div class="hero-ring"></div>
+        <div class="hero-eyebrow">Matdan Pranali — General Election 2025</div>
+        <h1 class="main-title">
+            <span class="accent-saffron">e</span>-Voting<br>
+            <span class="accent-green">System</span>
+        </h1>
+        <span class="main-title-hindi">भारत का डिजिटल मतदान मंच</span>
+        <p class="sub-title">Secure · Transparent · Democratic</p>
+        <div class="tricolor-bar"><span></span><span></span><span></span></div>
+    </section>
 
-<div class="nav-left">
+    <div class="cta-buttons">
+        <a href="login.html" class="btn-primary">Cast Your Vote</a>
+        <a href="result.html" class="btn-secondary">Live Results</a>
+    </div>
 
-<span class="govt">
+    <!-- 4 cards in one horizontal row -->
+    <div class="features-grid">
+        <div class="feature-card">
+            <span class="feature-num">01</span>
+            <h3>Aadhar Verified</h3>
+            <span class="feature-hindi">आधार सत्यापित</span>
+            <p>Every voter authenticated with their 12-digit Aadhar number. Tamper-proof identity, no duplicate votes.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-num">02</span>
+            <h3>Live Vote Count</h3>
+            <span class="feature-hindi">लाइव मतगणना</span>
+            <p>Real-time WebSocket updates. Results change the instant a vote is cast — no refresh needed.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-num">03</span>
+            <h3>Vote Confirmation</h3>
+            <span class="feature-hindi">मत पुष्टि</span>
+            <p>An email receipt is sent immediately after your vote is recorded. Transparent and fully traceable.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-num">04</span>
+            <h3>One Citizen, One Vote</h3>
+            <span class="feature-hindi">एक नागरिक, एक वोट</span>
+            <p>Strict one-vote-per-citizen policy backed by Aadhar lock to ensure a fair democratic process.</p>
+        </div>
+    </div>
 
-🇮🇳 Government of India
-
-</span>
-
-</div>
-
-<div class="nav-right">
-
-<a href="login.html">
-
-Login
-
-</a>
-
-<a href="signup.html">
-
-Signup
-
-</a>
-
-<a href="result.html">
-
-Results
-
-</a>
-
-</div>
-
-</nav>
-
-<!-- ===== Title ===== -->
-
-<h1 class="main-title">
-
-e-Voting System – India
-
-</h1>
-
-<p class="sub-title">
-
-Secure Digital Voting Platform
-
-</p>
-
+    <div id="toast-container"></div>
+    <script src="js/toast.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('show');
+        }
+    </script>
 </body>
-
 </html>

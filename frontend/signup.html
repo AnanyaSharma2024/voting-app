@@ -1,79 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> <!-- character encoding -->
-    <title>Signup - Voting App</title> <!-- browser tab title -->
-
-    <!-- link to external CSS file -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — Matdan</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="tricolor-topbar"><span></span><span></span><span></span></div>
 
-    <!-- ===== Navigation Bar ===== -->
     <nav class="navbar">
-
-        <!-- Left section (Govt label) -->
         <div class="nav-left">
-            <span class="govt">🇮🇳 Government of India</span>
+            <div class="nav-emblem"></div>
+            <div class="nav-brand">
+                <span class="nav-brand-title">MATDAN</span>
+                <span class="nav-brand-sub">e-Voting System — India</span>
+            </div>
         </div>
-
-        <!-- Right section (navigation links) -->
-        <div class="nav-right">
-            <a href="login.html">Home</a> <!-- home page -->
-            <a href="admin.html" class="admin-only" style="display:none;">Admin</a>
-            <a href="result.html">Results</a> <!-- results page -->
-
+        <button class="menu-icon" onclick="toggleMenu()">&#9776;</button>
+        <div class="nav-right" id="navMenu">
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html" class="active">Register</a>
+            <a href="result.html">Results</a>
         </div>
     </nav>
 
-    <!-- ===== Page Title Section ===== -->
+    <div class="auth-wrapper" style="padding: 40px 24px;">
+        <div class="auth-container" style="max-width: 520px;">
+            <h1>Register</h1>
+            <p class="auth-subtitle">पंजीकरण करें — Create your voter account</p>
 
-    <!-- main heading -->
-    <h1 class="main-title">e-Voting System – India</h1>
+            <div class="input-group">
+                <label class="input-label">Full Name / पूरा नाम</label>
+                <input type="text" id="name" placeholder="Enter your full name">
+            </div>
 
-    <!-- subtitle below main heading -->
-    <p class="sub-title">Secure Digital Voting Platform</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div class="input-group">
+                    <label class="input-label">Age / उम्र</label>
+                    <input type="number" id="age" placeholder="Age (18+)" min="18">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Role / भूमिका</label>
+                    <select id="role">
+                        <option value="voter" selected>Voter — मतदाता</option>
+                        <option value="admin">Admin — प्रशासक</option>
+                    </select>
+                </div>
+            </div>
 
-    <!-- ===== Signup Form ===== -->
+            <div class="input-group">
+                <label class="input-label">Address / पता</label>
+                <input type="text" id="address" placeholder="Full residential address">
+            </div>
 
-    <!-- container for signup form -->
-    <div class="auth-container">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div class="input-group">
+                    <label class="input-label">Email <span style="opacity:0.4; font-size:9px; letter-spacing:1px;">OPTIONAL</span></label>
+                    <input type="email" id="email" placeholder="your@email.com">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Mobile <span style="opacity:0.4; font-size:9px; letter-spacing:1px;">OPTIONAL</span></label>
+                    <input type="text" id="mobile" placeholder="10-digit number">
+                </div>
+            </div>
 
-        <h1>Signup</h1> <!-- form heading -->
+            <div class="input-group">
+                <label class="input-label">Aadhar Card Number / आधार संख्या</label>
+                <input type="text" id="aadhar" placeholder="12-digit Aadhar number" maxlength="12">
+            </div>
 
-       <input type="text" id="name" placeholder="Full Name">
+            <div class="input-group">
+                <label class="input-label">Password / पासवर्ड</label>
+                <input type="password" id="password" placeholder="Create a strong password">
+            </div>
 
-<input type="number" id="age" placeholder="Age">
+            <button onclick="signup()">Create Account</button>
 
-<input type="text" id="address" placeholder="Address">
-
-<input type="email" id="email" placeholder="Email (optional)">
-
-<input type="text" id="mobile" placeholder="Mobile (optional)">
-
-<input type="text" id="aadhar" placeholder="Aadhar Card Number">
-
-<input type="password" id="password" placeholder="Password">
-        <!-- role selection (voter/admin) -->
-        <select id="role">
-            <option value="voter" selected>Voter</option> <!-- default role -->
-            <option value="admin">Admin</option>
-        </select>
-
-        <!-- signup button triggers signup function -->
-        <button onclick="signup()">Signup</button>
-
-        <!-- link to login page -->
-        <p>Already have an account? <a href="login.html">Login</a></p>
+            <p>Already registered? / पहले से पंजीकृत? <a href="login.html">Login here</a></p>
+        </div>
     </div>
 
-    <!-- ===== JavaScript Files ===== -->
-
-    <!-- API related operations -->
+    <div id="toast-container"></div>
     <script src="js/api.js"></script>
-
-    <!-- authentication logic (signup, login handling) -->
     <script src="js/auth.js"></script>
-
+    <script src="js/toast.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('show');
+        }
+    </script>
 </body>
 </html>

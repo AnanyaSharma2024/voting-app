@@ -1,58 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> <!-- character encoding -->
-    <title>Admin Dashboard</title> <!-- page title -->
-
-    <!-- link to external CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — Matdan</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="tricolor-topbar"><span></span><span></span><span></span></div>
 
-    <!-- ===== Page Heading ===== -->
-    <h1>Admin Dashboard</h1>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-emblem"></div>
+            <div class="nav-brand">
+                <span class="nav-brand-title">MATDAN</span>
+                <span class="nav-brand-sub">Admin Panel — e-Voting India</span>
+            </div>
+        </div>
+        <button class="menu-icon" onclick="toggleMenu()">&#9776;</button>
+        <div class="nav-right" id="navMenu">
+            <a href="index.html">Home</a>
+            <a href="result.html">Results</a>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </nav>
 
-    <!-- logout button (calls logout function) -->
-    <button onclick="logout()" class="logout-btn">Logout</button>
+    <div class="admin-page">
 
-    <!-- ===== Add Candidate Section ===== -->
-    <h2>Add Candidate</h2>
+        <div class="admin-page-header">
+            <h1 class="admin-title">Admin <span class="accent">Dashboard</span></h1>
+            <p class="admin-subtitle">Prashashan Panel — Manage Candidates and Monitor Live Results</p>
+        </div>
 
-    <!-- form container for adding new candidate -->
-    <div class="auth-container">
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-value" id="statCandidates">—</span>
+                <span class="stat-label">Total Candidates / Kul Umedvaar</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="statVotes">—</span>
+                <span class="stat-label">Total Votes / Kul Mat</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="statLeader" style="font-size:20px; padding-top:14px; line-height:1.3;">—</span>
+                <span class="stat-label">Leading Party / Agrani Dal</span>
+            </div>
+        </div>
 
-        <!-- input for candidate name -->
-        <input type="text" id="cName" placeholder="Candidate Name">
+        <div class="admin-panel">
+            <p class="panel-title">Add New Candidate / Naya Umedvaar Joden</p>
+            <div class="admin-form-grid">
+                <div>
+                    <label class="input-label">Candidate Name / Naam</label>
+                    <input type="text" id="cName" placeholder="Full name">
+                </div>
+                <div>
+                    <label class="input-label">Party Name / Dal</label>
+                    <input type="text" id="cParty" placeholder="Party name">
+                </div>
+                <div>
+                    <label class="input-label">Age / Aayu</label>
+                    <input type="number" id="cAge" placeholder="Age" min="25">
+                </div>
+                <button class="add-btn" onclick="addCandidate()">Add</button>
+            </div>
+        </div>
 
-        <!-- input for party name -->
-        <input type="text" id="cParty" placeholder="Party">
+        <h2 class="section-heading">Candidates / Umedvaar</h2>
+        <div id="adminCandidateList" class="admin-grid"></div>
 
-        <!-- input for candidate age -->
-        <input type="number" id="cAge" placeholder="Age">
+        <h2 class="section-heading">Live Results / Live Parinaam</h2>
+        <div id="adminResults" class="admin-grid"></div>
 
-        <!-- button to trigger addCandidate function -->
-        <button onclick="addCandidate()">Add Candidate</button>
     </div>
 
-    <!-- ===== Manage Candidates Section ===== -->
-    <h2>Manage Candidates</h2>
+    <div id="toast-container"></div>
+    <script src="js/api.js"></script>
+    <script src="js/toast.js"></script>
+    <script>
+        (async function () {
+            try {
+                const profile = await apiRequest("/user/profile", "GET", null, true);
+                if (profile.user.role !== "admin") {
+                    showToast("Unauthorized access", "error");
+                    setTimeout(() => window.location.href = "index.html", 1500);
+                }
+            } catch (err) {
+                showToast("Session expired. Please login again.", "error");
+                setTimeout(() => window.location.href = "login.html", 1500);
+            }
+        })();
 
-    <!-- container where candidate list will be dynamically loaded -->
-    <div id="adminCandidateList" class="candidate-container"></div>
+        async function loadAdminCandidates() {
+            const list = document.getElementById("adminCandidateList");
+            list.innerHTML = [1,2,3].map(() => `
+                <div class="skeleton-card">
+                    <div class="skeleton-line title"></div>
+                    <div class="skeleton-line mid"></div>
+                    <div class="skeleton-line btn"></div>
+                </div>`).join('');
 
-    <!-- ===== Results Section ===== -->
-    <h2>Results</h2>
+            try {
+                const candidates = await apiRequest("/candidate", "GET", null, true);
+                list.innerHTML = "";
+                document.getElementById("statCandidates").textContent = candidates.length;
 
-    <!-- container where voting results will be displayed -->
-    <div id="adminResults" class="candidate-container"></div>
+                if (!candidates.length) {
+                    list.innerHTML = `<div class="empty-state"><div class="empty-line"></div><p>No candidates added yet</p></div>`;
+                    return;
+                }
 
-    <!-- ===== JavaScript Files ===== -->
+                candidates.forEach((c, i) => {
+                    const div = document.createElement("div");
+                    div.classList.add("candidate-card");
+                    div.style.animation = `fadeUp 0.4s ease ${i * 0.08}s both`;
+                    div.innerHTML = `
+                        <div class="ballot-number">${String(i + 1).padStart(2,'0')}</div>
+                        <div class="party-row">
+                            <span class="party-label-text">Party / Dal</span>
+                            <span class="party-name-text">${c.party}</span>
+                        </div>
+                        <h3>${c.name}</h3>
+                        <div class="candidate-meta">
+                            <span class="meta-chip">Age ${c.age}</span>
+                        </div>
+                        <div class="vote-tally">
+                            <span class="vote-tally-num">${c.voteCount}</span>
+                            <span class="vote-tally-label">Votes / Mat</span>
+                        </div>
+                        <button class="delete-btn" onclick="deleteCandidate('${c._id}')">Remove Candidate</button>
+                    `;
+                    list.appendChild(div);
+                });
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
 
-    <!-- API functions (backend communication) -->
-    <script src="js/api.js" defer></script>
+        async function addCandidate() {
+            const name  = document.getElementById("cName").value.trim();
+            const party = document.getElementById("cParty").value.trim();
+            const age   = document.getElementById("cAge").value;
 
-    <!-- admin-specific logic (add/manage candidates, results) -->
-    <script src="js/admin.js" defer></script>
+            if (!name || !party || !age) {
+                showToast("All fields are required", "error");
+                return;
+            }
+            try {
+                await apiRequest("/candidate", "POST", { name, party, age }, true);
+                showToast(name + " added successfully", "success");
+                document.getElementById("cName").value = "";
+                document.getElementById("cParty").value = "";
+                document.getElementById("cAge").value = "";
+                loadAdminCandidates();
+                loadResults();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
 
+        async function deleteCandidate(candidateId) {
+            try {
+                await apiRequest(`/candidate/${candidateId}`, "DELETE", null, true);
+                showToast("Candidate removed", "info");
+                loadAdminCandidates();
+                loadResults();
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        async function loadResults() {
+            try {
+                const results = await apiRequest("/candidate/vote/count", "GET", null, true);
+                const container = document.getElementById("adminResults");
+                container.innerHTML = "";
+
+                const totalVotes = results.reduce((sum, c) => sum + c.count, 0);
+                document.getElementById("statVotes").textContent = totalVotes;
+                if (results.length) document.getElementById("statLeader").textContent = results[0].party;
+
+                if (!results.length) {
+                    container.innerHTML = `<div class="empty-state"><div class="empty-line"></div><p>No votes cast yet</p></div>`;
+                    return;
+                }
+
+                results.forEach((c, i) => {
+                    const pct = totalVotes > 0 ? Math.round((c.count / totalVotes) * 100) : 0;
+                    const div = document.createElement("div");
+                    div.classList.add("result-card");
+                    if (i === 0) div.classList.add("leader");
+                    div.style.animation = `fadeUp 0.4s ease ${i * 0.08}s both`;
+                    div.innerHTML = `
+                        <div class="result-rank">${i + 1}</div>
+                        <h3>${c.party}</h3>
+                        <div class="result-bar-track">
+                            <div class="result-bar-fill" data-pct="${pct}"></div>
+                        </div>
+                        <div class="result-votes">
+                            ${c.count}
+                            <small>${pct}% of votes</small>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+
+                setTimeout(() => {
+                    document.querySelectorAll('.result-bar-fill').forEach(bar => {
+                        bar.style.width = bar.dataset.pct + '%';
+                    });
+                }, 120);
+
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+        }
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('show');
+        }
+
+        window.onload = () => {
+            loadAdminCandidates();
+            loadResults();
+        };
+    </script>
 </body>
 </html>

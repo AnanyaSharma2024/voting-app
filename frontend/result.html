@@ -1,50 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> <!-- character encoding -->
-    <title>Voting Results</title> <!-- page title in browser -->
-
-    <!-- link to external stylesheet -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Results — Matdan</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="tricolor-topbar"><span></span><span></span><span></span></div>
 
-    <!-- ===== Navigation Bar ===== -->
     <nav class="navbar">
-
-        <!-- Left section (Government label) -->
         <div class="nav-left">
-            <span class="govt">🇮🇳 Government of India</span>
+            <div class="nav-emblem"></div>
+            <div class="nav-brand">
+                <span class="nav-brand-title">MATDAN</span>
+                <span class="nav-brand-sub">e-Voting System — India</span>
+            </div>
         </div>
-
-        <!-- Right section (navigation links) -->
-        <div class="nav-right">
-            <a href="index.html">Home</a> <!-- home page -->
-           <a href="admin.html" class="admin-only" style="display:none;">Admin</a>
-            <a href="result.html">Results</a> <!-- current page (results) -->
-
-            <!-- logout button -->
+        <button class="menu-icon" onclick="toggleMenu()">&#9776;</button>
+        <div class="nav-right" id="navMenu">
+            <a href="index.html">Home</a>
+            <a href="admin.html" class="admin-only" style="display:none;">Admin</a>
+            <a href="result.html" class="active">Results</a>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </nav>
 
-    <!-- Page heading -->
-    <h1>Voting Results</h1>
-
-    <!-- ===== Results Section ===== -->
-
-    <!-- container where results will be dynamically inserted using JS -->
-    <div id="resultsContainer" class="candidate-container">
-        <!-- Candidates results will load here -->
+    <div class="page-hero">
+        <div class="live-badge">Real-Time Matganana — Live Count</div>
+        <h1 class="page-title">Chunav <span class="accent">Parinaam</span></h1>
+        <p class="page-subtitle" id="resultSubtitle">Loading results...</p>
+        <span class="hindi-tagline">चुनाव परिणाम — लाइव मतगणना</span>
+        <div class="tricolor-bar" style="margin-top:18px;"><span></span><span></span><span></span></div>
     </div>
 
-    <!-- ===== JavaScript Files ===== -->
+    <div id="resultsContainer" class="results-container"></div>
 
-    <!-- API functions (fetching data from backend) -->
+    <div id="toast-container"></div>
     <script src="js/api.js"></script>
+    <script src="js/toast.js"></script>
+    <script>
+        const token = localStorage.getItem("token");
+        if (!token) {
+            showToast("Please login first", "error");
+            setTimeout(() => window.location.href = "login.html", 1500);
+        }
 
-    <!-- Results logic (displaying vote counts, etc.) -->
-    <script src="js/result.js"></script>
+        async function loadResults() {
+            try {
+                const results = await apiRequest("/candidate/vote/count", "GET", null, true);
+                const container = document.getElementById("resultsContainer");
+                container.innerHTML = "";
 
+                const totalVotes = results.reduce((sum, c) => sum + c.count, 0);
+                document.getElementById("resultSubtitle").textContent =
+                    `${totalVotes} votes cast · Kul Mat: ${totalVotes} · Ranked by count`;
+
+                if (!results.length) {
+                    container.innerHTML = `<div class="empty-state"><div class="empty-line"></div><p>No results yet — Abhi tak koi mat nahi</p></div>`;
+                    return;
+                }
+
+                results.forEach((c, i) => {
+                    const pct = totalVotes > 0 ? Math.round((c.count / totalVotes) * 100) : 0;
+                    const div = document.createElement("div");
+                    div.classList.add("result-card");
+                    if (i === 0) div.classList.add("leader");
+                    div.style.animation = `fadeUp 0.45s ease ${i * 0.1}s both`;
+                    div.innerHTML = `
+                        <div class="result-rank">${i + 1}</div>
+                        <h3>${c.party}</h3>
+                        <div class="result-bar-track">
+                            <div class="result-bar-fill" data-pct="${pct}"></div>
+                        </div>
+                        <div class="result-votes">
+                            ${c.count}
+                            <small>${pct}% of total votes</small>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+
+                setTimeout(() => {
+                    document.querySelectorAll('.result-bar-fill').forEach(bar => {
+                        bar.style.width = bar.dataset.pct + '%';
+                    });
+                }, 120);
+
+            } catch (err) {
+                showToast(err.message, "error");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+        }
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('show');
+        }
+
+        window.onload = loadResults;
+    </script>
 </body>
 </html>

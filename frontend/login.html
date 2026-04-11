@@ -1,93 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Login - Voting App</title>
-
-<link rel="stylesheet" href="css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Matdan</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+    <div class="tricolor-topbar"><span></span><span></span><span></span></div>
 
-<!-- ===== Navbar ===== -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="nav-emblem"></div>
+            <div class="nav-brand">
+                <span class="nav-brand-title">MATDAN</span>
+                <span class="nav-brand-sub">e-Voting System — India</span>
+            </div>
+        </div>
+        <button class="menu-icon" onclick="toggleMenu()">&#9776;</button>
+        <div class="nav-right" id="navMenu">
+            <a href="index.html">Home</a>
+            <a href="login.html" class="active">Login</a>
+            <a href="signup.html">Register</a>
+            <a href="result.html">Results</a>
+        </div>
+    </nav>
 
-<nav class="navbar">
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <h1>Login</h1>
+            <p class="auth-subtitle">लॉगिन करें — Enter your Aadhar credentials</p>
 
-<div class="nav-left">
-<span class="govt">🇮🇳 Government of India</span>
-</div>
+            <div class="input-group">
+                <label class="input-label" for="aadhar">Aadhar Card Number / आधार संख्या</label>
+                <input type="text" id="aadhar" placeholder="12-digit Aadhar number" maxlength="12">
+            </div>
 
-<div class="nav-right">
+            <div class="input-group">
+                <label class="input-label" for="password">Password / पासवर्ड</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
 
-<a href="login.html">Login</a>
+            <button onclick="login()">Login</button>
 
-<a href="signup.html">Signup</a>
+            <p>New voter? / नए मतदाता? <a href="signup.html">Register here</a></p>
+        </div>
+    </div>
 
-<a href="result.html">Results</a>
-
-</div>
-
-</nav>
-
-<!-- ===== Login Title ===== -->
-
-<h1 class="main-title">
-
-e-Voting System – India
-
-</h1>
-
-<p class="sub-title">
-
-Secure Digital Voting Platform
-
-</p>
-
-<!-- ===== Login Form ===== -->
-
-<div class="auth-container">
-
-<h1>Login</h1>
-
-<input
-type="text"
-id="aadhar"
-placeholder="Aadhar Card Number"
->
-
-<input
-type="password"
-id="password"
-placeholder="Password"
->
-
-<button onclick="login()">
-
-Login
-
-</button>
-
-<p>
-
-Don't have an account?
-
-<a href="signup.html">
-
-Signup
-
-</a>
-
-</p>
-
-</div>
-
-<!-- JS -->
-
-<script src="js/api.js"></script>
-
-<script src="js/auth.js"></script>
-
+    <div id="toast-container"></div>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/toast.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('show');
+        }
+    </script>
 </body>
-
 </html>
