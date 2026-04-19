@@ -1,5 +1,5 @@
 /* =====================================================
-   MATDAN — Indian e-Voting System
+   MATDAN — Digital Voting Platform
    Colors: Navy + Saffron (v1 palette)
    Fonts: Bebas Neue + Rajdhani + Tiro Devanagari Hindi
    No emojis anywhere
@@ -85,18 +85,24 @@ body > * { position: relative; z-index: 1; }
 ::-webkit-scrollbar-thumb { background: var(--saffron); border-radius: 2px; }
 
 /* =====================================================
-   TRICOLOR TOPBAR
+   TOP ACCENT — Saffron glow bar with Ashoka dots
    ===================================================== */
 .tricolor-topbar {
     position: fixed;
     top: 0; left: 0; right: 0;
-    height: 4px;
-    display: flex;
+    height: 3px;
     z-index: 2000;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--saffron) 20%,
+        var(--gold) 50%,
+        var(--saffron) 80%,
+        transparent 100%
+    );
+    box-shadow: 0 0 12px rgba(255,107,0,0.5), 0 0 32px rgba(255,107,0,0.2);
 }
-.tricolor-topbar span:nth-child(1) { flex:1; background: var(--saffron); }
-.tricolor-topbar span:nth-child(2) { flex:1; background: rgba(250,250,250,0.9); }
-.tricolor-topbar span:nth-child(3) { flex:1; background: var(--green); }
+/* hide the child spans — no longer needed */
+.tricolor-topbar span { display: none; }
 
 /* =====================================================
    NAVBAR
@@ -295,16 +301,26 @@ body > * { position: relative; z-index: 1; }
     color: var(--text-muted);
 }
 
+/* Ashoka Chakra spoke dots — replaces tricolor bar */
 .tricolor-bar {
     display: flex;
-    width: 80px; height: 3px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     margin: 22px auto 0;
-    border-radius: 2px;
-    overflow: hidden;
+    width: fit-content;
 }
-.tricolor-bar span:nth-child(1) { flex:1; background: var(--saffron); }
-.tricolor-bar span:nth-child(2) { flex:1; background: rgba(250,250,250,0.85); }
-.tricolor-bar span:nth-child(3) { flex:1; background: var(--green-light); }
+/* 24 spokes as dots — rendered via JS, but CSS handles look */
+.tricolor-bar span {
+    display: block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--saffron);
+    opacity: 0.55;
+    flex: none;
+}
+.tricolor-bar span:nth-child(odd)  { background: var(--gold);    opacity: 0.7; }
+.tricolor-bar span:nth-child(4n)   { background: var(--saffron); opacity: 0.9; width: 5px; height: 5px; }
 
 /* =====================================================
    CTA BUTTONS
@@ -688,8 +704,9 @@ body > * { position: relative; z-index: 1; }
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--saffron) 33%, rgba(250,250,250,0.8) 33% 66%, var(--green) 66%);
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--saffron), var(--gold), var(--saffron), transparent);
+    box-shadow: 0 0 10px rgba(255,107,0,0.3);
 }
 .auth-container::after {
     content: '';
@@ -1154,4 +1171,29 @@ body > * { position: relative; z-index: 1; }
     .stats-row { grid-template-columns: 1fr; }
     .auth-container { padding: 36px 24px; }
     .cta-buttons { padding: 36px 20px 0; }
+}
+
+.main-title {
+    font-size: 60px;
+    font-weight: bold;
+    color: #0b3c5d;
+
+    /* 👇 Shadow add */
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+}
+
+
+.main-title {
+    color: white;
+
+    /* 👇 Bahut bada hero size */
+    font-size: clamp(72px, 12vw, 120px);
+
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 3px 10px rgba(0,0,0,0.9),
+        0 0 18px rgba(255,255,255,0.6);
 }
